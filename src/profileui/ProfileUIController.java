@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
 
 /**
  * Purpose of the class is to set listener for profile interface
@@ -152,6 +153,8 @@ public class ProfileUIController {
 
                         App.currentUser = new UnRegisteredUser();
 
+                        App.profileUI.setVisible(false);
+
                         CreateBlockArrayData.creatBlockArrayData(App.interfaceSize, App.currentUser);
                         MainUIBlocksArrayPaneUpdate.updateUI(App.mainUI.blocksArray, App.currentUser.currentBlocksArrayData, App.mainUI.blocksArrayPane);
 
@@ -169,6 +172,13 @@ public class ProfileUIController {
                         App.mainUI.profilePhoto.setUsername(App.currentUser.username);
                         // Update user table
                         App.mainUI.usersScrollPane.updateUsersTable();
+                        // Update record panel
+                        App.mainUI.updateLastBestRecord(true);
+
+                        // Update champion panel
+                        ResultSet resultSet = OperateDatabases.selectBestData(App.statement, "bestRecord");
+                        App.mainUI.ChampionPanel.setUserToPanel(resultSet.getString("username"), resultSet.getInt("bestRecord"));
+                        resultSet.close();
 
                         App.ifEnd = false;
 

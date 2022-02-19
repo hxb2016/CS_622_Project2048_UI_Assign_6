@@ -24,11 +24,13 @@ public class MainUI extends JFrame {
     public JPanel recordPane = null;
     public JPanel buttonPane = null;
     public JPanel blocksArrayPane = null;
-    public JLabel lastTitleLabel = new JLabel("Last Record: Taken ...s", SwingConstants.CENTER);
+    public JPanel lastRecordOutPane;
+    public JLabel lastTitleLabel = new JLabel("Last Record: Taken ... s", SwingConstants.CENTER);
     public MainUIBlockLabel[][] lastBlockArray = new MainUIBlockLabel[App.interfaceSize][App.interfaceSize];
     public JPanel lastRecord = new MainUIBlocksArrayPane(lastBlockArray, 10, 2);
 
-    public JLabel bestTitleLabel = new JLabel("best Record: Taken ...s", SwingConstants.CENTER);
+    public JPanel bestRecordOutPane;
+    public JLabel bestTitleLabel = new JLabel("best Record: Taken ... s", SwingConstants.CENTER);
     public MainUIBlockLabel[][] bestBlockArray = new MainUIBlockLabel[App.interfaceSize][App.interfaceSize];
     public JPanel bestRecord = new MainUIBlocksArrayPane(bestBlockArray, 10, 2);
     public ProfilePhoto profilePhoto = new ProfilePhoto(App.currentUser);
@@ -64,13 +66,13 @@ public class MainUI extends JFrame {
         this.recordPane.setPreferredSize(new Dimension(this.getWidth(), 220));
 
 ////////////////////////////////////////////////////////////////////////////////////
-        JPanel lastRecordOutPane = new JPanel();
+        lastRecordOutPane = new JPanel();
         lastRecordOutPane.setLayout(new BorderLayout());
         lastRecordOutPane.setBorder(new EmptyBorder(0, 20, 0, 20));
         lastRecordOutPane.add(this.lastTitleLabel, BorderLayout.NORTH);
         lastRecordOutPane.add(this.lastRecord, BorderLayout.CENTER);
 
-        JPanel bestRecordOutPane = new JPanel();
+        bestRecordOutPane = new JPanel();
         bestRecordOutPane.setLayout(new BorderLayout());
         bestRecordOutPane.setBorder(new EmptyBorder(0, 20, 0, 20));
         this.bestTitleLabel.setForeground(new Color(18, 150, 219));
@@ -128,7 +130,6 @@ public class MainUI extends JFrame {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         blocksArrayPane = new MainUIBlocksArrayPane(blocksArray, 25, 5);
 
-
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -144,11 +145,29 @@ public class MainUI extends JFrame {
     /**
      * Purpose of this method is to update the lastBlockArray and bestBlockArray
      */
-    public void updateLastBestRecord() {
-        MainUIBlocksArrayPaneUpdate.updateUI(this.lastBlockArray, ((RegisteredUser) App.currentUser).lastBlocksArrayData, this.lastRecord);
-        this.lastTitleLabel.setText("Last Record: Taken " + ((RegisteredUser) App.currentUser).lastTakeTime + " s");
-        MainUIBlocksArrayPaneUpdate.updateUI(this.bestBlockArray, ((RegisteredUser) App.currentUser).bestBlocksArrayData, this.bestRecord);
-        this.bestTitleLabel.setText("Best Record: Taken " + ((RegisteredUser) App.currentUser).bestTakeTime + " s");
+    public void updateLastBestRecord(boolean ifInit) {
+        if(!ifInit) {
+            MainUIBlocksArrayPaneUpdate.updateUI(this.lastBlockArray, ((RegisteredUser) App.currentUser).lastBlocksArrayData, this.lastRecord);
+            this.lastTitleLabel.setText("Last Record: Taken " + ((RegisteredUser) App.currentUser).lastTakeTime + " s");
+
+            MainUIBlocksArrayPaneUpdate.updateUI(this.bestBlockArray, ((RegisteredUser) App.currentUser).bestBlocksArrayData, this.bestRecord);
+            this.bestTitleLabel.setText("Best Record: Taken " + ((RegisteredUser) App.currentUser).bestTakeTime + " s");
+        }else{
+            this.lastTitleLabel.setText("Last Record: Taken ... s");
+            this.bestTitleLabel.setText("Last Record: Taken ... s");
+
+            lastRecordOutPane.remove(lastRecord);
+            lastBlockArray = new MainUIBlockLabel[App.interfaceSize][App.interfaceSize];
+            lastRecord = new MainUIBlocksArrayPane(lastBlockArray, 10, 2);
+            lastRecordOutPane.add(lastRecord,BorderLayout.CENTER);
+            lastRecordOutPane.updateUI();
+
+            bestRecordOutPane.remove(bestRecord);
+            bestBlockArray = new MainUIBlockLabel[App.interfaceSize][App.interfaceSize];
+            bestRecord = new MainUIBlocksArrayPane(bestBlockArray, 10, 2);
+            bestRecordOutPane.add(bestRecord,BorderLayout.CENTER);
+            bestRecordOutPane.updateUI();
+        }
     }
 
     /**

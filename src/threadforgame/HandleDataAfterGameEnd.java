@@ -57,7 +57,7 @@ public class HandleDataAfterGameEnd extends Thread {
                     }
                     //====================================================================
                     SaveUsersData.saveUsersData(App.usersData, App.userDataPath);
-                    App.mainUI.updateLastBestRecord();
+                    App.mainUI.updateLastBestRecord(false);
                     App.mainUI.usersScrollPane.updateUsersTable();
 
                     resultSet = OperateDatabases.selectBestData(App.statement, "bestRecord");

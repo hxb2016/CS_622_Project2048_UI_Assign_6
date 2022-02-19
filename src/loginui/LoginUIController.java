@@ -61,7 +61,7 @@ public class LoginUIController {
 
                         //Update record panel
                         if (((RegisteredUser) App.currentUser).lastBlocksArrayData != null) {
-                            App.mainUI.updateLastBestRecord();
+                            App.mainUI.updateLastBestRecord(false);
                         }
 
                         //Update username panel
@@ -221,7 +221,7 @@ public class LoginUIController {
 
                     SaveUsersData.saveUsersData(App.usersData, App.userDataPath);
                     OptionPane.setJOptionPaneMessage(App.mainUI, "Successfully Registered and Save!", "Message", null);
-                    App.mainUI.updateLastBestRecord();
+                    App.mainUI.updateLastBestRecord(false);
                 } catch (Exception e) {
                     System.out.println("Error happened when save data.");
                     e.printStackTrace();
