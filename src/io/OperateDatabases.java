@@ -1,9 +1,10 @@
 package io;
 
 import java.sql.*;
+
 /**
  * Purpose of the class is to provide some methods to create table, insert, change, delete and select data in the databases
- *
+ * <p>
  * Author: Xiaobing Hou
  * Date: 02/18/2022
  * Course: CS-622
@@ -13,13 +14,16 @@ public class OperateDatabases {
      * Purpose of the method is to get connection and Statement
      */
     public static Statement getStatement(String[] cols, String[] types, String path) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);//Connect database, if not exist create
-        Statement statement = connection.createStatement(); //Create a connection object
+        //Connect database, if not exist create
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
+        //Create a connection object
+        Statement statement = connection.createStatement();
 
         //if there is no table in the databases create the tables below
         if (!ifTableExist(statement)) {
-            String sql1 = "create table usernameAndPwd(id INTEGER PRIMARY KEY autoincrement, username char(64), password char(64))";
-
+            // Create username and password table for saving username and password of users
+            String sql1 = "CREATE TABLE usernameAndPwd(id INTEGER PRIMARY KEY autoincrement, username char(64), password char(64))";
+            // Create profile table for saving profile information of users
             StringBuilder sql2 = new StringBuilder("create table ProfileTable(id INTEGER PRIMARY KEY autoincrement,");
             for (int i = 0; i < cols.length; i++) {
                 if (i != cols.length - 1) {
@@ -33,6 +37,7 @@ public class OperateDatabases {
         }
         return statement;
     }
+
     /**
      * Purpose of the method is to insert data into databases
      */
@@ -46,6 +51,7 @@ public class OperateDatabases {
         statement.executeUpdate(sql1);//insert data
         statement.executeUpdate(sql2);//insert data
     }
+
     /**
      * Purpose of the method is to select data from databases
      */
@@ -58,6 +64,7 @@ public class OperateDatabases {
         }
         return statement.executeQuery(sql);
     }
+
     /**
      * Purpose of the method is to select special data from databases
      */
@@ -65,6 +72,7 @@ public class OperateDatabases {
         String sql = "SELECT username, password, age, gender, intro, bestRecord, MIN(" + where + ") FROM usernameAndPwd INNER JOIN ProfileTable ON usernameAndPwd.id = ProfileTable.id WHERE bestRecord != 0";
         return statement.executeQuery(sql);
     }
+
     /**
      * Purpose of the method is to change data in databases
      */
@@ -74,8 +82,9 @@ public class OperateDatabases {
         resultSet.close();
 
         String sql = "UPDATE ProfileTable SET " + col + " = " + values + " WHERE id = '" + id + "'";
-        statement.executeUpdate(sql);//insert data
+        statement.executeUpdate(sql);//change data
     }
+
     /**
      * Purpose of the method is to delete data from databases
      */
@@ -89,6 +98,7 @@ public class OperateDatabases {
         statement.executeUpdate(sql1);//delete data
         statement.executeUpdate(sql2);//delete data
     }
+
     /**
      * Purpose of the method is to judge that whether tables exist in databases
      */
