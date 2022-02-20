@@ -39,6 +39,7 @@ public class App {
     public static LoginUI loginUI = null;
     public static ProfileUI profileUI = null;
     public static boolean ifEnd = false;// Judge that the game end or not
+    public static boolean ifDeleteAccount = false;
 
     private final static GetDataThread getDataThread = new GetDataThread();
 

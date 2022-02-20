@@ -183,7 +183,7 @@ public class ProfileUIController {
                         App.ifEnd = false;
 
                         // init profile page
-                        ProfileUIContent.profileUIContent = null;
+                        App.ifDeleteAccount = true;
 
                         //init timer panel
                         UpdateTimerPane.endTimer();

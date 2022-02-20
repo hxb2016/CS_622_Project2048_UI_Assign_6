@@ -90,11 +90,22 @@ public class ProfileUIContent extends JPanel {
      * purpose of this method is to make sure that there is always one component
      */
     public static void setProfileUIContent(User user) {
-        if (profileUIContent == null) {
+        if (App.ifDeleteAccount) {
+            App.profileUI.remove(profileUIContent);
             profileUIContent = new ProfileUIContent(user);
             App.profileUI.add(profileUIContent, BorderLayout.CENTER);
             ProfileUIController.setController(profileUIContent);
+            profileUIContent.updateUI();
+            App.ifDeleteAccount = false;
+
+        } else {
+            if (profileUIContent == null) {
+                profileUIContent = new ProfileUIContent(user);
+                App.profileUI.add(profileUIContent, BorderLayout.CENTER);
+                ProfileUIController.setController(profileUIContent);
+            }
         }
     }
+
 
 }
