@@ -1,12 +1,36 @@
 #  CS_622_Project_2048Game
 
+### Overview for whole game:
+
+This project concerns a Number Game 2048. It uses Swing modules to create the interface. 
+
+The game interface includes profile photo, timer, best record, last record, champion panel, users list, operation, and main playing areas. 
+
+### Something for playing:
+
+Users can choose to hide or show timer and start a new game when they are playing game. 
+
+### Options for users:
+
+In the game, user can play as unregistered or registered user. 
+
+### Something for registered user:
+
+As the registered users, they can login account. After login, they can delete, edit account, and save data
+
+### Something for unregistered user:
+
+As the unregistered user, they cannot save data and edit account information. 
+
+### Special inner setting for test:
+
+In the version, I change the win number from 2048 to 16 to save time for test. This means that if any number is equal to 16, you will the game (normal win number should be 2048).
+
+### *New functions added in this version:*
+
+Champion panel, delete account and timer panel hide or show functions.
 
 
-This project concerns a Number Game 2048. It uses Swing modules to create the interface. To play this
-game, you can choose to create an account or just start as guest. If you register account, you can see your last result and best result when you play
-the game next time. In order to complete the function, I will save user data Map into a file (Data.dat in package userdata).
-When you create an account, you need set a user name and a password (the two option is must). The game blocks Array size is 4x4. When there is a number that is larger than 2048 (*In order to save time for test, I change the win number from 2048 to 16 in this
-version. This means that if any number is equal to 16, you will the game*), you win in the game. When the interface is fully filled with number and there is no number that is bigger than 2048, you fail in the game. After ending, you will see you taken time and set your last record to record pane.  In this version, I add champion panel, delete account and timer panel hide or show functions.
 
 ## How to Run this Project:
 

@@ -147,48 +147,34 @@ public class ProfileUIController {
                 if (option == JOptionPane.YES_OPTION) {
                     try {
                         OperateDatabases.deleteData(App.statement, App.currentUser.username);
-
                         App.usersData.remove(App.currentUser.username);
                         SaveUsersData.saveUsersData(App.usersData, App.userDataPath);
-
                         App.currentUser = new UnRegisteredUser();
-
-                        App.profileUI.setVisible(false);
-
+                        // Update user table
+                        App.mainUI.usersScrollPane.updateUsersTable();
                         CreateBlockArrayData.creatBlockArrayData(App.interfaceSize, App.currentUser);
                         MainUIBlocksArrayPaneUpdate.updateUI(App.mainUI.blocksArray, App.currentUser.currentBlocksArrayData, App.mainUI.blocksArrayPane);
 
-                        //Update profile photo of profile panel
-                        ImageIconForPhoto icon = new ImageIconForPhoto(App.photosLocation + "profile1.png");
-                        profileUIContent.profilePhoto.roundLabel.setIcon(icon);
 
+                        App.profileUI.setVisible(false);
                         //Update profile photo of main panel
                         ImageIconForPhoto photo = new ImageIconForPhoto(App.photosLocation + "profile1.png");
                         App.mainUI.profilePhoto.roundLabel.setIcon(photo);
-
-                        // Update profileUIContent username
-                        profileUIContent.profilePhoto.username.setText(App.currentUser.username);
                         // Update mainUI username
-                        App.mainUI.profilePhoto.setUsername(App.currentUser.username);
-                        // Update user table
-                        App.mainUI.usersScrollPane.updateUsersTable();
+                        App.mainUI.profilePhoto.setUsername(null);
                         // Update record panel
                         App.mainUI.updateLastBestRecord(true);
-
                         // Update champion panel
                         ResultSet resultSet = OperateDatabases.selectBestData(App.statement, "bestRecord");
                         App.mainUI.ChampionPanel.setUserToPanel(resultSet.getString("username"), resultSet.getInt("bestRecord"));
                         resultSet.close();
 
                         App.ifEnd = false;
-
                         // init profile page
                         App.ifDeleteAccount = true;
-
                         //init timer panel
                         UpdateTimerPane.endTimer();
                         App.mainUI.timerPane.setSecond("0 s");
-
                         Operate.ifStartOperate = false;
                     } catch (Exception ex) {
                         ex.printStackTrace();
